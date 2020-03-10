@@ -25,7 +25,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Unit tests for {@link ComparatorUtils}.
@@ -36,6 +36,7 @@ public class ComparatorUtilsTests {
 
 	@Test
 	public void orderedBySimpleType() {
+
 		List<Entity> list = Arrays.asList(
 				Entity.builder().name("1").build(),
 				Entity.builder().name("2").build()
@@ -50,6 +51,7 @@ public class ComparatorUtilsTests {
 
 	@Test
 	public void orderedByInnerField() {
+
 		List<Entity> list = Arrays.asList(
 				Entity.builder().subEntity(Entity.builder().name("A").build()).build(),
 				Entity.builder().subEntity(Entity.builder().name("B").build()).build()
@@ -64,6 +66,7 @@ public class ComparatorUtilsTests {
 
 	@Test
 	public void orderedNaturally() {
+
 		List<Entity> list = Arrays.asList(
 				Entity.builder().name("2").build(),
 				Entity.builder().name("1").build()
@@ -78,6 +81,7 @@ public class ComparatorUtilsTests {
 
 	@Test
 	public void nullsFirstInNaturalOrder() {
+
 		List<Entity> list = Arrays.asList(
 				Entity.builder().subEntity(Entity.builder().name("B").build()).build(),
 				Entity.builder().build(),
@@ -94,6 +98,7 @@ public class ComparatorUtilsTests {
 
 	@Test
 	public void nullsLastInDescendingOrder() {
+
 		List<Entity> list = Arrays.asList(
 				Entity.builder().build(),
 				Entity.builder().subEntity(Entity.builder().name("A").build()).build(),

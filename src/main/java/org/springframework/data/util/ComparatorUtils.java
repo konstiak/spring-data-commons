@@ -23,14 +23,13 @@ import javax.annotation.Nullable;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
-import static java.util.Comparator.comparing;
-import static java.util.Optional.ofNullable;
-import static org.springframework.beans.BeanUtils.getPropertyDescriptor;
+import static java.util.Comparator.*;
+import static java.util.Optional.*;
+import static org.springframework.beans.BeanUtils.*;
 
 /**
  * Converter for {@link Sort} to make it applicable as Comparator based on reflection.
@@ -51,6 +50,7 @@ public class ComparatorUtils {
 	 * @return generated comparator
 	 */
 	public static <T> Comparator<T> comparatorOf(Sort sort) {
+
 		return Comparator.nullsFirst(sort.get().map(ComparatorUtils::comparatorOf)
 										 .map(Comparator::nullsFirst)
 										 .reduce(Comparator::thenComparing)
@@ -67,12 +67,14 @@ public class ComparatorUtils {
 	 * @return generated comparator
 	 */
 	public static <T, U extends Comparable<? super U>> Comparator<T> comparatorOf(Sort.Order order) {
+
 		Function<T, U> keyExtractor = keyExtractor(order.getProperty());
 		Comparator<T> comparator = comparing(keyExtractor, nullSafeComparator());
 		return order.isAscending() ? comparator : comparator.reversed();
 	}
 
 	private static <T, U> Function<T, U> keyExtractor(String propertiesPath) {
+
 		return entity -> {
 			Object innerValue = entity;
 			for (String propertyName : parsePropertiesPath(propertiesPath)) {
@@ -97,12 +99,14 @@ public class ComparatorUtils {
 
 	@Nullable
 	private static Object getValue(Object entity, String propertyName) {
+
 		return ofNullable(getPropertyDescriptor(entity.getClass(), propertyName))
 				.map(descriptor -> getValue(descriptor, entity))
 				.orElse(null);
 	}
 
 	private static <T> Object getValue(PropertyDescriptor descriptor, T entity) {
+
 		try {
 			return descriptor.getReadMethod().invoke(entity);
 		} catch (IllegalAccessException | InvocationTargetException e) {
