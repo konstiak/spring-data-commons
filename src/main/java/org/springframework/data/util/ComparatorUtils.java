@@ -41,9 +41,9 @@ import static org.springframework.beans.BeanUtils.*;
 public class ComparatorUtils {
 
 	/**
-	 * Converts {@link Sort} type to appropriate {@link Comparator} which can compare provided entities.
-	 * Converts all provided orders to separate comparator and joins them into one by thenComparing operation.
-	 * Null values have precedence in case of ascending direction.
+	 * Converts {@link Sort} type to appropriate {@link Comparator} which can compare provided entities. Converts all
+	 * provided orders to separate comparator and joins them into one by thenComparing operation. Null values have
+	 * precedence in case of ascending direction.
 	 *
 	 * @param sort sort to convert
 	 * @param <T> class to which the comparator can be applied
@@ -51,15 +51,13 @@ public class ComparatorUtils {
 	 */
 	public static <T> Comparator<T> comparatorOf(Sort sort) {
 
-		return Comparator.nullsFirst(sort.get().map(ComparatorUtils::comparatorOf)
-										 .map(Comparator::nullsFirst)
-										 .reduce(Comparator::thenComparing)
-										 .orElse(comparing(e -> 0)));
+		return Comparator.nullsFirst(sort.get().map(ComparatorUtils::comparatorOf).map(Comparator::nullsFirst)
+				.reduce(Comparator::thenComparing).orElse(comparing(e -> 0)));
 	}
 
 	/**
-	 * Converts {@link Sort.Order} type to appropriate {@link Comparator} which can compare provided entities.
-	 * Null values have precedence in case of ascending direction.
+	 * Converts {@link Sort.Order} type to appropriate {@link Comparator} which can compare provided entities. Null values
+	 * have precedence in case of ascending direction.
 	 *
 	 * @param order order to convert
 	 * @param <T> class to which the comparator can be applied
@@ -101,8 +99,7 @@ public class ComparatorUtils {
 	private static Object getValue(Object entity, String propertyName) {
 
 		return ofNullable(getPropertyDescriptor(entity.getClass(), propertyName))
-				.map(descriptor -> getValue(descriptor, entity))
-				.orElse(null);
+				.map(descriptor -> getValue(descriptor, entity)).orElse(null);
 	}
 
 	private static <T> Object getValue(PropertyDescriptor descriptor, T entity) {
@@ -110,7 +107,8 @@ public class ComparatorUtils {
 		try {
 			return descriptor.getReadMethod().invoke(entity);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			throw new IllegalArgumentException(String.format("Could not get value from specified property: %s", descriptor.getDisplayName()));
+			throw new IllegalArgumentException(
+					String.format("Could not get value from specified property: %s", descriptor.getDisplayName()));
 		}
 	}
 }

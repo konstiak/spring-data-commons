@@ -37,10 +37,7 @@ public class ComparatorUtilsTests {
 	@Test
 	public void orderedBySimpleType() {
 
-		List<Entity> list = Arrays.asList(
-				Entity.builder().name("1").build(),
-				Entity.builder().name("2").build()
-		);
+		List<Entity> list = Arrays.asList(Entity.builder().name("1").build(), Entity.builder().name("2").build());
 
 		Comparator<Entity> comparator = ComparatorUtils.comparatorOf(Sort.by(Sort.Direction.DESC, "name"));
 		List<Entity> sorted = list.stream().sorted(comparator).collect(Collectors.toList());
@@ -52,10 +49,8 @@ public class ComparatorUtilsTests {
 	@Test
 	public void orderedByInnerField() {
 
-		List<Entity> list = Arrays.asList(
-				Entity.builder().subEntity(Entity.builder().name("A").build()).build(),
-				Entity.builder().subEntity(Entity.builder().name("B").build()).build()
-		);
+		List<Entity> list = Arrays.asList(Entity.builder().subEntity(Entity.builder().name("A").build()).build(),
+				Entity.builder().subEntity(Entity.builder().name("B").build()).build());
 
 		Comparator<Entity> comparator = ComparatorUtils.comparatorOf(Sort.by(Sort.Direction.DESC, "subEntity.name"));
 		List<Entity> sorted = list.stream().sorted(comparator).collect(Collectors.toList());
@@ -67,10 +62,7 @@ public class ComparatorUtilsTests {
 	@Test
 	public void orderedNaturally() {
 
-		List<Entity> list = Arrays.asList(
-				Entity.builder().name("2").build(),
-				Entity.builder().name("1").build()
-		);
+		List<Entity> list = Arrays.asList(Entity.builder().name("2").build(), Entity.builder().name("1").build());
 
 		Comparator<Entity> comparator = ComparatorUtils.comparatorOf(Sort.unsorted());
 		List<Entity> sorted = list.stream().sorted(comparator).collect(Collectors.toList());
@@ -82,11 +74,8 @@ public class ComparatorUtilsTests {
 	@Test
 	public void nullsFirstInNaturalOrder() {
 
-		List<Entity> list = Arrays.asList(
-				Entity.builder().subEntity(Entity.builder().name("B").build()).build(),
-				Entity.builder().build(),
-				Entity.builder().subEntity(Entity.builder().name("A").build()).build()
-		);
+		List<Entity> list = Arrays.asList(Entity.builder().subEntity(Entity.builder().name("B").build()).build(),
+				Entity.builder().build(), Entity.builder().subEntity(Entity.builder().name("A").build()).build());
 
 		Comparator<Entity> comparator = ComparatorUtils.comparatorOf(Sort.by(Sort.Direction.ASC, "subEntity.name"));
 		List<Entity> sorted = list.stream().sorted(comparator).collect(Collectors.toList());
@@ -99,11 +88,9 @@ public class ComparatorUtilsTests {
 	@Test
 	public void nullsLastInDescendingOrder() {
 
-		List<Entity> list = Arrays.asList(
-				Entity.builder().build(),
+		List<Entity> list = Arrays.asList(Entity.builder().build(),
 				Entity.builder().subEntity(Entity.builder().name("A").build()).build(),
-				Entity.builder().subEntity(Entity.builder().name("B").build()).build()
-		);
+				Entity.builder().subEntity(Entity.builder().name("B").build()).build());
 
 		Comparator<Entity> comparator = ComparatorUtils.comparatorOf(Sort.by(Sort.Direction.DESC, "subEntity.name"));
 		List<Entity> sorted = list.stream().sorted(comparator).collect(Collectors.toList());
